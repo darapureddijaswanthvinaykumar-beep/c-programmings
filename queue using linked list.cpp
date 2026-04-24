@@ -1,0 +1,121 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node
+{
+    int data;
+    struct node *next;
+};
+
+struct node *front = NULL;
+struct node *rear = NULL;
+
+void enqueue()
+{
+    struct node *new_n;
+    int d;
+
+    new_n = (struct node *)malloc(sizeof(struct node));
+
+    printf("\nEnter element: ");
+    scanf("%d", &d);
+
+    new_n->data = d;
+    new_n->next = NULL;
+
+    if (front == NULL && rear == NULL)
+    {
+        front = rear = new_n;
+    }
+    else
+    {
+        rear->next = new_n;
+        rear = new_n;
+    }
+
+    printf("Element inserted: %d\n", d);
+}
+
+void dequeue()
+{
+    struct node *temp;
+
+    if (front == NULL && rear == NULL)
+    {
+        printf("\nQueue is empty\n");
+    }
+    else
+    {
+        temp = front;
+        printf("\nDeleted node is %d\n", front->data);
+
+        front = front->next;
+
+        // Important fix
+        if (front == NULL)
+        {
+            rear = NULL;
+        }
+
+        free(temp);
+    }
+}
+
+void display()
+{
+    struct node *temp;
+
+    if (front == NULL && rear == NULL)
+    {
+        printf("\nQueue is empty\n");
+    }
+    else
+    {
+        temp = front;
+        printf("\nQueue elements: ");
+        while (temp != NULL)
+        {
+            printf("%d ", temp->data);
+            temp = temp->next;
+        }
+        printf("\n");
+    }
+}
+
+int main()
+{
+    int ch;
+
+    while (1)
+    {
+        printf("\n\nQUEUE OPERATIONS ARE:");
+        printf("\n1. Insert");
+        printf("\n2. Delete");
+        printf("\n3. Display");
+        printf("\n4. Exit");
+
+        printf("\nEnter your choice: ");
+        scanf("%d", &ch);
+
+        switch (ch)
+        {
+        case 1:
+            enqueue();
+            break;
+
+        case 2:
+            dequeue();
+            break;
+
+        case 3:
+            display();
+            break;
+
+        case 4:
+            exit(0);
+
+        default:
+            printf("\nInvalid choice, try again.\n");
+        }
+    }
+}
